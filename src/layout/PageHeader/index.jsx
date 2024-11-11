@@ -5,7 +5,6 @@ import styles from './styles.module.scss';
 import {Helmet} from 'react-helmet';
 import RangeSlider from '@ui/RangeSlider';
 import SidebarTrigger from '@ui/SidebarTrigger';
-import User from './User';
 import Search from './Search';
 import TruncatedText from '@components/TruncatedText';
 
@@ -18,6 +17,7 @@ import useStoreRoute from '@hooks/useStoreRoute';
 
 // utils
 import PropTypes from 'prop-types';
+import User from './User';
 
 const TabletHeader = ({title}) => {
     const [ref, {width}] = useMeasure();

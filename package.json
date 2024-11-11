@@ -2,7 +2,6 @@
   "name": "source-safe",
   "version": "1.0.2",
   "private": true,
-
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
     "@dnd-kit/modifiers": "^6.0.1",
@@ -25,6 +24,7 @@
     "dayjs": "^1.11.7",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
+    "mui-file-input": "^6.0.0",
     "nanoid": "^4.0.1",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
@@ -59,7 +59,8 @@
     "stylis-plugin-rtl": "^2.1.1",
     "swiper": "^8.4.6",
     "use-gauge": "^0.5.0",
-    "use-mobile-detect-hook": "^1.0.5"
+    "use-mobile-detect-hook": "^1.0.5",
+    "zod": "^3.23.8"
   },
   "scripts": {
     "start": "craco start",

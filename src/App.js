@@ -49,6 +49,8 @@ import ScrollToTop from '@components/ScrollToTop';
 
 const Login = lazy(() => import('@pages/Login'));
 const SignUp = lazy(() => import('@pages/SignUp'));
+const Groups = lazy(() => import('@pages/Groups'));
+const NewGroup = lazy(() => import('@pages/NewGroup'));
 
 
 const App = () => {
@@ -109,7 +111,9 @@ const App = () => {
                                         <Suspense>
                                             <Routes>
                                                 <Route path="/" element={<Login/>}/>
-                                                
+                                                <Route path="/groups" element={<Groups/>}/>
+                                                <Route path="/groups/new" element={<NewGroup/>}/>
+
                                                 <Route path="/sign-up" element={<SignUp/>}/>
                                             </Routes>
                                         </Suspense>

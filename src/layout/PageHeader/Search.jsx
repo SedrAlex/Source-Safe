@@ -9,7 +9,7 @@ const Search = () => {
 
     return (
         <form className={`${styles.search} ${styles[theme]}`}>
-            <input className="text-12" type="search" id="globalSearch" placeholder="Search for liga soccer …"/>
+            <input className="text-12" type="search" id="globalSearch" placeholder="Search Files and Groups …"/>
             <label htmlFor="globalSearch">
                 <i className="icon-search"/>
             </label>
