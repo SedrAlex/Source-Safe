@@ -28,3 +28,11 @@
     align-items: center;
     justify-content: center;
 }
+.label {
+    cursor: pointer;
+    transition: color 0.3s ease; 
+  }
+  
+  .label:hover {
+    color: #282828;
+  }

@@ -10,18 +10,25 @@ import CoverImage from "../../src/assets/CoverImage.webp";
 import { MuiFileInput } from "mui-file-input";
 import { useCreateGroupMutation } from "api/groups/groupsApi";
 import { toast } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
+import "react-toastify/dist/ReactToastify.css";
+import { useParams } from "react-router-dom";
 
 const schema = z.object({
-  name: z.string().min(1, "Name is required"),
+  name: z.string().min(2, "Name is required"),
+  description: z.string().optional(),
   type: z.enum(["public", "private"], "Type must be either public or private"),
 });
 
 const NewGroup = () => {
-  const { control, handleSubmit, formState: { errors } } = useForm({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
       name: "",
+      description: "",
       type: "public",
     },
   });
@@ -29,14 +36,16 @@ const NewGroup = () => {
   const [logoFile, setLogoFile] = useState(null);
   const [bgFile, setBgFile] = useState(null);
   const [createGroup] = useCreateGroupMutation();
+  const { groupId } = useParams();
 
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
-      formData.append('name', data.name);
-      formData.append('type', data.type);
-      if (logoFile) formData.append('logo', logoFile);
-      if (bgFile) formData.append('background', bgFile);
+      formData.append("name", data.name);
+      formData.append("description", data.description);
+      formData.append("type", data.type);
+      if (logoFile) formData.append("logo", logoFile);
+      if (bgFile) formData.append("background", bgFile);
 
       const response = await createGroup(formData).unwrap();
       toast.success("Group created successfully!");
@@ -57,10 +66,35 @@ const NewGroup = () => {
 
   return (
     <>
-      <PageHeader title="New Group" />
-      <Grid container justifyContent="center" alignItems="center" style={{ marginBottom: "20px", position: "relative" }}>
-        <img src={CoverImage} alt="Center Image" style={{ maxWidth: "100%", height: "600px", objectFit: "contain", borderRadius: "10px" }} />
-        <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(223, 170, 66,0.3)", borderRadius: "10px", zIndex: 1 }}></div>
+      <PageHeader title={groupId !== "new" ? "Update Group" : "New Group"} />
+      <Grid
+        container
+        justifyContent="center"
+        alignItems="center"
+        style={{ marginBottom: "20px", position: "relative" }}
+      >
+        <img
+          src={CoverImage}
+          alt="Center Image"
+          style={{
+            maxWidth: "100%",
+            height: "600px",
+            objectFit: "contain",
+            borderRadius: "10px",
+          }}
+        />
+        <div
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            backgroundColor: "rgba(223, 170, 66,0.3)",
+            borderRadius: "10px",
+            zIndex: 1,
+          }}
+        ></div>
       </Grid>
       <form onSubmit={handleSubmit(onSubmit)}>
         <Grid container spacing={2}>
@@ -76,6 +110,24 @@ const NewGroup = () => {
                   fullWidth
                   error={!!errors.name}
                   helperText={errors.name ? errors.name.message : ""}
+                />
+              )}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Controller
+              name="description"
+              control={control}
+              render={({ field }) => (
+                <TextField
+                  {...field}
+                  label="Group description"
+                  variant="outlined"
+                  fullWidth
+                  error={!!errors.description}
+                  helperText={
+                    errors.description ? errors.description.message : ""
+                  }
                 />
               )}
             />
@@ -132,7 +184,7 @@ const NewGroup = () => {
                 },
               }}
             >
-              Create Group
+              {groupId !== "new" ? "Update Group" : "Create Group"}{" "}
             </Button>
           </Grid>
         </Grid>

@@ -33,13 +33,18 @@ const Group = ({ clubData, id }) => {
     navigate(`/groups/${id}/invite`);
   };
 
+  const handlePreviewClick = () => {
+    console.log(`Navigating to /groups/${id}/`);
+    navigate(`/groups/${id}/`);
+  };
+
   return (
     <Spring
       className={`${styles.container} ${
         theme === "light" ? styles.light : styles.dark
       } card no-shadow card-padded text-black`}
     >
-      <Box sx={{ position: "relative" }}>
+      <div sx={{ position: "relative" }}>
         <img
           className={`${styles.cover} cover`}
           src={clubData?.cover || cover}
@@ -48,14 +53,19 @@ const Group = ({ clubData, id }) => {
         <Box
           sx={{
             position: "absolute",
-            top: 8,
             right: 8,
             display: "flex",
+            flexDirection: "column",
             alignItems: "center",
+            gap: 1,
           }}
         >
           {isPrivate && (
-            <IconButton size="small" sx={{ ml: 1, cursor: 'pointer' }}>
+            <IconButton
+              size="small"
+              sx={{ cursor: "pointer" }}
+              onClick={handlePreviewClick}
+            >
               <img
                 src={lockIcon}
                 alt="Lock Icon"
@@ -65,19 +75,8 @@ const Group = ({ clubData, id }) => {
           )}
           <IconButton
             size="small"
-            sx={{ ml: 1, cursor: 'pointer' }}
-            // onClick={handleInviteClick}
-          >
-            <img
-              src={envelopeIcon}
-              alt="Envelope Icon"
-              style={{ width: 30, height: 30 }}
-            />
-          </IconButton>
-          <IconButton
-            size="small"
-            sx={{ ml: 1, cursor: 'pointer' }}
-            onClick={handleInviteClick}
+            sx={{ cursor: "pointer" }}
+            onClick={handlePreviewClick}
           >
             <img
               src={detailsIcon}
@@ -85,8 +84,19 @@ const Group = ({ clubData, id }) => {
               style={{ width: 30, height: 30 }}
             />
           </IconButton>
+          <IconButton
+            size="small"
+            sx={{ cursor: "pointer" }}
+            onClick={handleInviteClick}
+          >
+            <img
+              src={envelopeIcon}
+              alt="Envelope Icon"
+              style={{ width: 30, height: 30 }}
+            />
+          </IconButton>
         </Box>
-      </Box>
+      </div>
       <div
         className={`${styles.content} d-flex flex-column align-items-start justify-content-between h-100`}
       >
@@ -105,7 +115,7 @@ const Group = ({ clubData, id }) => {
             {clubData?.description || "Paris, France"}
           </h4>
         </div>
-        <div className="d-flex flex-wrap g-20 badge">
+        <div className="d-flex flex-wrap g-20" style={{ marginTop: "10px" }}>
           {data.map((item, index) => (
             <StatsBadge
               key={index}
@@ -118,7 +128,7 @@ const Group = ({ clubData, id }) => {
               }
               value={item.value}
               onClick={() => handleChipClick(item.path)}
-              style={{ cursor: 'pointer' }} 
+              style={{ cursor: "pointer" }}
             />
           ))}
         </div>

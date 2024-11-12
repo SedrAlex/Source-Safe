@@ -1,33 +1,35 @@
-// components
+import React, { useState, useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useNavigate, NavLink } from "react-router-dom";
 import PasswordInput from "@components/PasswordInput";
 import BasicCheckbox from "@ui/BasicCheckbox";
 import ResetPasswordPopup from "@components/ResetPasswordPopup";
-import { useNavigate, NavLink } from "react-router-dom";
-
-// hooks
-import { useForm, Controller } from "react-hook-form";
-import { useState } from "react";
-
-// utils
 import classNames from "classnames";
+import { ToastContainer, toast } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const LoginForm = () => {
   const [open, setOpen] = useState(false);
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    control,
-  } = useForm({
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const { register, handleSubmit, formState: { errors }, control } = useForm({
     defaultValues: {
-      email: "",
-      password: "",
+      email: "sedra@gmail.com",
+      password: "12345678",
       rememberMe: false,
     },
   });
   const navigate = useNavigate();
 
-  const onSubmit = () => navigate("/");
+  const onSubmit = (data) => {
+    setLoginSuccess(true);
+  };
+
+  useEffect(() => {
+    if (loginSuccess) {
+      toast.success("Logged in successfully!");
+      navigate("/groups");
+    }
+  }, [loginSuccess, navigate]);
 
   const handleResetPassword = (e) => {
     e.preventDefault();
@@ -37,11 +39,8 @@ const LoginForm = () => {
   return (
     <>
       <h1>Account login</h1>
-      <form>
-        <div
-          className="d-flex flex-column g-10"
-          style={{ margin: "20px 0 30px" }}
-        >
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="d-flex flex-column g-10" style={{ margin: "20px 0 30px" }}>
           <div className="d-flex flex-column g-20">
             <input
               className={classNames("field", { "field--error": errors.email })}
@@ -53,10 +52,7 @@ const LoginForm = () => {
               control={control}
               name="password"
               rules={{ required: true }}
-              render={({
-                field: { ref, onChange, value },
-                fieldState: { error },
-              }) => (
+              render={({ field: { ref, onChange, value }, fieldState: { error } }) => (
                 <PasswordInput
                   className={classNames("field", { "field--error": error })}
                   value={value}
@@ -84,31 +80,18 @@ const LoginForm = () => {
           </div>
         </div>
         <div className="d-flex justify-content-between align-items-center">
-          <button
-            className="btn btn--sm"
-            type="submit"
-            onClick={handleSubmit(onSubmit)}
-          >
+          <button className="btn btn--sm" type="submit">
             Submit
           </button>
-          <button
-            className="text-button text-button--sm"
-            onClick={handleResetPassword}
-          >
+          <button className="text-button text-button--sm" onClick={handleResetPassword}>
             Reset password
           </button>
         </div>
       </form>
-      <div
-        className="d-flex justify-content-center"
-        style={{ marginTop: "10px" }}
-      >
+      <div className="d-flex justify-content-center" style={{ marginTop: "10px" }}>
         <p className="text-12">
           Don't have an account?{" "}
-          <NavLink
-            to="/sign-up"
-            className="text-link text-decoration-underline"
-          >
+          <NavLink to="/sign-up" className="text-link text-decoration-underline">
             Create an account
           </NavLink>
         </p>

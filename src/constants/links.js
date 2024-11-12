@@ -43,20 +43,20 @@ const LINKS = [
     
     ],
   },
-  {
-    title: "Profile",
-    icon: "users",
-    pages: [
-      {
-        title: "Sign in",
-        path: "/sign-in",
-      },
-      {
-        title: "Sign up",
-        path: "/sign-up",
-      },
-    ],
-  },
+  // {
+  //   title: "Profile",
+  //   icon: "users",
+  //   pages: [
+  //     {
+  //       title: "Sign in",
+  //       path: "/sign-in",
+  //     },
+  //     {
+  //       title: "Sign up",
+  //       path: "/sign-up",
+  //     },
+  //   ],
+  // },
  
 ];
 

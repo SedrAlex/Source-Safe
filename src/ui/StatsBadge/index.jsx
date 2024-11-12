@@ -1,21 +1,20 @@
-// styling
+import React from 'react';
+import PropTypes from 'prop-types';
 import styles from './styles.module.scss';
 
-// utils
-import PropTypes from 'prop-types';
-
-const StatsBadge = ({label, value}) => {
-    return (
-        <div className={styles.wrapper}>
-            <span className={`${styles.block} h6 label`}>{label}</span>
-            <span className={`${styles.block} h6 label`}>{value}</span>
-        </div>
-    )
-}
+const StatsBadge = ({ label, value, onClick }) => {
+  return (
+    <div className={styles.wrapper} onClick={onClick} style={{ cursor: 'pointer' }}>
+      <span className={`${styles.block} ${styles.label}`}>{label}</span>
+      <span className={styles.block}>{value}</span>
+    </div>
+  );
+};
 
 StatsBadge.propTypes = {
-    label: PropTypes.string.isRequired,
-    value: PropTypes.number.isRequired,
-}
+  label: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
+  onClick: PropTypes.func, 
+};
 
-export default StatsBadge
+export default StatsBadge;

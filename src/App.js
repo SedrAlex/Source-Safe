@@ -51,7 +51,10 @@ const Login = lazy(() => import('@pages/Login'));
 const SignUp = lazy(() => import('@pages/SignUp'));
 const Groups = lazy(() => import('@pages/Groups'));
 const NewGroup = lazy(() => import('@pages/NewGroup'));
-
+const Invitation = lazy(() => import('@pages/Invitation'));
+ const NewFile = lazy(() => import('@pages/NewFile'));
+ const Files = lazy(() => import('@pages/Files'));
+ const Main = lazy(() => import('@pages/Main'));
 
 const App = () => {
     const appRef = useRef(null);
@@ -110,9 +113,13 @@ const App = () => {
                                     <div className="app_container-content d-flex flex-column flex-1">
                                         <Suspense>
                                             <Routes>
-                                                <Route path="/" element={<Login/>}/>
+                                            <Route path="/" element={<Main/>}/>
+                                                <Route path="/sign-in" element={<Login/>}/>
                                                 <Route path="/groups" element={<Groups/>}/>
-                                                <Route path="/groups/new" element={<NewGroup/>}/>
+                                                <Route path="/groups/:groupId" element={<NewGroup/>}/>
+                                                <Route path="/groups/:groupId/invite" element={<Invitation/>}/>
+                                                <Route path="/groups/:groupId/files/new" element={<NewFile/>}/>
+                                                <Route path="/groups/:groupId/files" element={<Files/>}/>
 
                                                 <Route path="/sign-up" element={<SignUp/>}/>
                                             </Routes>
