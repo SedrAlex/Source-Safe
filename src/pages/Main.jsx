@@ -24,8 +24,9 @@ const Main = () => {
       <Typography
         variant="h2"
         sx={{
-          textShadow: "0 0 10px red, 0 0 20px red",
+          textShadow: "0 0 10px white, 0 0 20px white",
           marginBottom: 2,
+          color:"#DFAA42"
         }}
       >
         Source Safe
@@ -38,7 +39,7 @@ const Main = () => {
           variant="contained"
           sx={{
             backgroundColor: "#DFAA42",
-            boxShadow: "0 0 10px red, 0 0 20px red",
+            boxShadow: "0 0 10px white, 0 0 20px white",
             "&:hover": {
               backgroundColor: "#DFAA42",
             },
@@ -51,7 +52,7 @@ const Main = () => {
           variant="contained"
           sx={{
             backgroundColor: "#DFAA42",
-            boxShadow: "0 0 10px red, 0 0 20px red",
+            boxShadow: "0 0 10px white, 0 0 20px white",
             "&:hover": {
               backgroundColor: "#DFAA42",
             },
