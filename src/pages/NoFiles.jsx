@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import noFile from "../assets/nofiles.png"
 import { useParams } from "react-router-dom";
 
-const Files = () => {
+const NoFiles = () => {
   const { data: files, isLoading, error } = useGetFilesQuery();
   const { groupId } = useParams();
 
@@ -21,10 +21,7 @@ const Files = () => {
         height: '100vh',
       }}
     >
-      {files && files.length > 0 ? (
-        <Typography>Files are available</Typography>
-      ) : (
-        <>
+      
           <img
             src={noFile}
             alt="No files"
@@ -43,10 +40,8 @@ const Files = () => {
           >
             Create a New File
           </Button>
-        </>
-      )}
     </Box>
   );
 };
 
-export default Files;
+export default NoFiles;

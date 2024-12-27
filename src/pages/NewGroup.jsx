@@ -6,12 +6,13 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import PageHeader from "@layout/PageHeader";
-import CoverImage from "../../src/assets/CoverImage.webp";
+import CoverImage from "../../src/assets/cover_image.png";
 import { MuiFileInput } from "mui-file-input";
 import { useCreateGroupMutation } from "api/groups/groupsApi";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useParams } from "react-router-dom";
+import BasicInputs from "@ui/Forms/BasicInputs";
 
 const schema = z.object({
   name: z.string().min(2, "Name is required"),
@@ -67,128 +68,23 @@ const NewGroup = () => {
   return (
     <>
       <PageHeader title={groupId !== "new" ? "Update Group" : "New Group"} />
-      <Grid
-        container
-        justifyContent="center"
-        alignItems="center"
-        style={{ marginBottom: "20px", position: "relative" }}
-      >
-        <img
-          src={CoverImage}
-          alt="Center Image"
-          style={{
-            maxWidth: "100%",
-            height: "600px",
-            objectFit: "contain",
-            borderRadius: "10px",
-          }}
-        />
-        <div
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            backgroundColor: "rgba(223, 170, 66,0.3)",
-            borderRadius: "10px",
-            zIndex: 1,
-          }}
-        ></div>
-      </Grid>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Controller
-              name="name"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Group Name"
-                  variant="outlined"
-                  fullWidth
-                  error={!!errors.name}
-                  helperText={errors.name ? errors.name.message : ""}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Controller
-              name="description"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Group description"
-                  variant="outlined"
-                  fullWidth
-                  error={!!errors.description}
-                  helperText={
-                    errors.description ? errors.description.message : ""
-                  }
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Controller
-              name="type"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  select
-                  label="Group Type"
-                  variant="outlined"
-                  fullWidth
-                  error={!!errors.type}
-                  helperText={errors.type ? errors.type.message : ""}
-                  SelectProps={{
-                    native: true,
-                  }}
-                >
-                  <option value="public">Public</option>
-                  <option value="private">Private</option>
-                </TextField>
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <MuiFileInput
-              placeholder="Insert Group Background Image"
-              value={logoFile}
-              onChange={handleLogoChange}
-              sx={{ width: "100%" }}
-            />
-            {logoFile && <p>{logoFile.name}</p>}
-          </Grid>
-          <Grid item xs={12}>
-            <MuiFileInput
-              placeholder="Insert Group Icon Image"
-              value={bgFile}
-              onChange={handleBgChange}
-              sx={{ width: "100%" }}
-            />
-            {bgFile && <p>{bgFile.name}</p>}
-          </Grid>
-          <Grid item xs={12} style={{ textAlign: "right" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                backgroundColor: "#DFAA42",
-                "&:hover": {
-                  backgroundColor: "#DFAA42",
-                },
-              }}
-            >
-              {groupId !== "new" ? "Update Group" : "Create Group"}{" "}
-            </Button>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+        <BasicInputs     />       
         </Grid>
-      </form>
+        <Grid item xs={12} md={6}>
+          <img
+            src={CoverImage}
+            alt="Center Image"
+            style={{
+              maxWidth: "100%",
+              height: "650px",
+              objectFit: "contain",
+              borderRadius: "10px",
+            }}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

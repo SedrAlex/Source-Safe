@@ -24,7 +24,7 @@ const LINKS = [
     pages: [
       {
         title: "Files",
-        path: "/files",
+        path: "files",
       },
       {
         title: "New File",

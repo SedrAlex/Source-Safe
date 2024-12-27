@@ -9,6 +9,15 @@ import ThemeStyles from '@styles/theme';
 import './style.scss';
 
 // libs styles
+
+import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/js/bootstrap.bundle.js";
+import "@fortawesome/fontawesome-free/css/fontawesome.min.css";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import '@fortawesome/fontawesome-svg-core/styles.css';
+import "./assets/css/line-awesome.min.css";
+import "./assets/scss/main.scss";
+import "./assets/css/material.css";
 import 'react-toastify/dist/ReactToastify.min.css';
 import 'react-grid-layout/css/styles.css';
 import 'swiper/css';
@@ -53,8 +62,8 @@ const Groups = lazy(() => import('@pages/Groups'));
 const NewGroup = lazy(() => import('@pages/NewGroup'));
 const Invitation = lazy(() => import('@pages/Invitation'));
  const NewFile = lazy(() => import('@pages/NewFile'));
- const Files = lazy(() => import('@pages/Files'));
  const Main = lazy(() => import('@pages/Main'));
+ const Files = lazy(() => import('@pages/FileManager'));
 
 const App = () => {
     const appRef = useRef(null);
@@ -120,6 +129,7 @@ const App = () => {
                                                 <Route path="/groups/:groupId/invite" element={<Invitation/>}/>
                                                 <Route path="/groups/:groupId/files/new" element={<NewFile/>}/>
                                                 <Route path="/groups/:groupId/files" element={<Files/>}/>
+                                                <Route path="/files" element={<Files/>}/>
 
                                                 <Route path="/sign-up" element={<SignUp/>}/>
                                             </Routes>
