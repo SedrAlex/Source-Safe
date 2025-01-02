@@ -12,10 +12,10 @@ import lockIcon from "@assets/lock.png";
 import envelopeIcon from "@assets/envelop.png";
 import detailsIcon from "@assets/details.png";
 
-const Group = ({ clubData, id }) => {
+const Group = ({ clubData }) => {
   const { theme } = useThemeProvider();
   const { width } = useWindowSize();
-  const [isPrivate, setIsPrivate] = useState(clubData?.isPrivate);
+  const [isPrivate, setIsPrivate] = useState(clubData?.type==="private");
   const navigate = useNavigate();
 
   const data = [
@@ -24,18 +24,18 @@ const Group = ({ clubData, id }) => {
   ];
 
   const handleChipClick = (path) => {
-    console.log(`Navigating to /groups/${id}/${path}`);
-    navigate(`/groups/${id}/${path}`);
+    console.log(`Navigating to /groups/${clubData?.id}/${path}`);
+    navigate(`/groups/${clubData?.id}/${path}`);
   };
 
   const handleInviteClick = () => {
-    console.log(`Navigating to /groups/${id}/invite`);
-    navigate(`/groups/${id}/invite`);
+    console.log(`Navigating to /groups/${clubData?.id}/invite`);
+    navigate(`/groups/${clubData?.id}/invite`);
   };
 
   const handlePreviewClick = () => {
-    console.log(`Navigating to /groups/${id}/`);
-    navigate(`/groups/${id}/`);
+    console.log(`Navigating to /groups/${clubData?.id}/`);
+    navigate(`/groups/${clubData?.id}/`);
   };
 
   return (
@@ -47,7 +47,7 @@ const Group = ({ clubData, id }) => {
       <div sx={{ position: "relative" }}>
         <img
           className={`${styles.cover} cover`}
-          src={clubData?.cover || cover}
+          src={clubData?.bg_image_url || cover}
           style={{ width: "100%", height: "auto" }}
         />
         <Box
@@ -102,14 +102,14 @@ const Group = ({ clubData, id }) => {
       >
         <img
           className="club-logo"
-          src={clubData?.icon || bvb}
+          src={clubData?.icon_image_url || bvb}
           alt="Club Icon"
         />
         <div
           className={`${styles.content_header} d-flex flex-column g-4 flex-1`}
         >
           <h2 className={`${styles.club} text-20 text-black text-overflow`}>
-            {clubData?.title || "React Group"}
+            {clubData?.name || "React Group"}
           </h2>
           <h4 className="text-black text-overflow">
             {clubData?.description || "Paris, France"}

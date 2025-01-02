@@ -62,6 +62,7 @@
     "react-use": "^17.4.0",
     "react-use-measure": "^2.1.1",
     "recharts": "^2.4.3",
+    "redux-persist": "^6.0.0",
     "rtl-detect": "^1.0.4",
     "sass": "^1.57.1",
     "styled-components": "^5.3.6",

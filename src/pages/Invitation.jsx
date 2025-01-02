@@ -6,11 +6,12 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import PageHeader from "@layout/PageHeader";
-import CoverImage from "../../src/assets/invitation.jpg";
+import CoverImage from "../../src/assets/Invitation.png";
 import { useSendInvitationMutation } from "api/groups/groupsApi";
 import { toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import { useParams } from 'react-router-dom';
+import InvitationForm from "@ui/Forms/InvitationForm";
 
 const schema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
@@ -48,67 +49,24 @@ const Invitation = () => {
   return (
     <>
       <PageHeader title={"Invite A Member"} />
-      <Grid container justifyContent="center" alignItems="center" style={{ marginBottom: "20px", position: "relative" }}>
-        <img src={CoverImage} alt="Center Image" style={{ maxWidth: "100%", height: "600px", objectFit: "cover", borderRadius: "10px" }} />
-        <div style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", backgroundColor: "rgba(223, 170, 66,0.3)", borderRadius: "10px", zIndex: 1 }}></div>
-      </Grid>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Controller
-              name="email"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  label="Email"
-                  variant="outlined"
-                  fullWidth
-                  error={!!errors.email}
-                  helperText={errors.email ? errors.email.message : ""}
-                />
-              )}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Controller
-              name="accessLevel"
-              control={control}
-              render={({ field }) => (
-                <TextField
-                  {...field}
-                  select
-                  label="Access Level"
-                  variant="outlined"
-                  fullWidth
-                  error={!!errors.accessLevel}
-                  helperText={errors.accessLevel ? errors.accessLevel.message : ""}
-                  SelectProps={{
-                    native: true,
-                  }}
-                >
-                  <option value="read">Read Only</option>
-                  <option value="write">Full Access</option>
-                </TextField>
-              )}
-            />
-          </Grid>
-          <Grid item xs={12} style={{ textAlign: "right" }}>
-            <Button
-              type="submit"
-              variant="contained"
-              sx={{
-                backgroundColor: "#DFAA42",
-                "&:hover": {
-                  backgroundColor: "#DFAA42",
-                },
-              }}
-            >
-              Send Invitation
-            </Button>
-          </Grid>
+      <Grid container spacing={2}>
+        <Grid item xs={12} md={6}>
+        <InvitationForm     />       
         </Grid>
-      </form>
+        <Grid item xs={12} md={6}>
+          <img
+            src={CoverImage}
+            alt="Center Image"
+            className="d-none d-md-block"
+            style={{
+              maxWidth: "100%",
+              height: "640px",
+              objectFit: "contain",
+              borderRadius: "10px",
+            }}
+          />
+        </Grid>
+      </Grid>
     </>
   );
 };

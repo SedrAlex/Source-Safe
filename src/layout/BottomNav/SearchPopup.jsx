@@ -27,7 +27,7 @@ const SearchPopup = ({open, onClose}) => {
                 <form className="d-flex g-4" onSubmit={handleSubmit(onSubmit)}>
                     <input className={classNames('field', {'field--error': errors.search})}
                            type="search"
-                           placeholder="Search for liga soccer..."
+                           placeholder="Search for Source Safe..."
                            {...register('search', {required: true})}
                     />
                     <button className="btn" type="submit">

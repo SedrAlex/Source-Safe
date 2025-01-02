@@ -96,7 +96,7 @@ const PageHeader = ({title}) => {
     return (
         <>
             <Helmet>
-                <title>{title} | Liga Soccer React Dashboard Template</title>
+                <title>{title} | Source Safe</title>
             </Helmet>
             {
                 width < 1280 ?

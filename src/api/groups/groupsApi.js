@@ -6,14 +6,14 @@ export const groupsApi = createApi({
   baseQuery: apiService,
   endpoints: (builder) => ({
     getGroups: builder.query({
-      query: () => "/groups",
+      query: () => "groups",
     }),
     getGroup: builder.query({
-      query: (id) => `/groups/${id}`,
+      query: (id) => `groups/${id}`,
     }),
     createGroup: builder.mutation({
       query: (newGroup) => ({
-        url: "/groups",
+        url: "groups",
         method: "POST",
         body: newGroup,
       }),
@@ -21,21 +21,21 @@ export const groupsApi = createApi({
 
     sendInvitation: builder.mutation({
       query: (invitation) => ({
-        url: "/invitations",
+        url: "invitations",
         method: "POST",
         body: invitation,
       }),
     }),
     updateGroup: builder.mutation({
       query: ({ id, ...updatedGroup }) => ({
-        url: `/groups/${id}`,
+        url: `groups/${id}`,
         method: "PUT",
         body: updatedGroup,
       }),
     }),
     deleteGroup: builder.mutation({
       query: (id) => ({
-        url: `/groups/${id}`,
+        url: `groups/${id}`,
         method: "DELETE",
       }),
     }),

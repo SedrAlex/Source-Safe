@@ -26,10 +26,6 @@ const LINKS = [
         title: "Files",
         path: "files",
       },
-      {
-        title: "New File",
-        path: "/files/new",
-      },
     ],
   },
   {

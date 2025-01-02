@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { useNavigate, NavLink } from "react-router-dom";
 import PasswordInput from "@components/PasswordInput";
@@ -7,29 +7,46 @@ import ResetPasswordPopup from "@components/ResetPasswordPopup";
 import classNames from "classnames";
 import { ToastContainer, toast } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { useLoginMutation } from 'api/auth/authApi';
+import { useDispatch } from 'react-redux';
+import { setUser } from '../api/user/userSlice'; 
+
+const LoginSchema = z.object({
+  email: z.string().email("Invalid email address"),
+  password: z.string().min(8, "Password must be at least 8 characters"),
+});
 
 const LoginForm = () => {
   const [open, setOpen] = useState(false);
-  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [loginMutation, { isLoading }] = useLoginMutation();
+  const dispatch = useDispatch();
   const { register, handleSubmit, formState: { errors }, control } = useForm({
+    resolver: zodResolver(LoginSchema),
     defaultValues: {
-      email: "sedra@gmail.com",
-      password: "12345678",
-      rememberMe: false,
+      email: "",
+      password: "",
     },
   });
   const navigate = useNavigate();
 
-  const onSubmit = (data) => {
-    setLoginSuccess(true);
-  };
-
-  useEffect(() => {
-    if (loginSuccess) {
-      toast.success("Logged in successfully!");
+  const onSubmit = async (data) => {
+    try {
+      const userData = await loginMutation(data).unwrap();
+      dispatch(setUser(userData.data)); 
+      toast.success(`Logged in successfully! Welcome back, ${userData?.data?.name}.`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
       navigate("/groups");
+    } catch (error) {
+      toast.error(`Login failed: ${error.message}`, {
+        position: "top-right",
+        autoClose: 3000,
+      });
     }
-  }, [loginSuccess, navigate]);
+  };
 
   const handleResetPassword = (e) => {
     e.preventDefault();
@@ -97,6 +114,7 @@ const LoginForm = () => {
         </p>
       </div>
       <ResetPasswordPopup open={open} onClose={() => setOpen(false)} />
+      <ToastContainer />
     </>
   );
 };

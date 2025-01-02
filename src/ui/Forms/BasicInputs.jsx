@@ -1,11 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useForm, Controller } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import Breadcrumbs from "@ui/Shared/Breadcrumbs";
 import Select from "react-select";
+import { useCreateGroupMutation, useUpdateGroupMutation } from "api/groups/groupsApi";
+import { toast } from "react-toastify";
 
-const BasicInputs = () => {
-  const selectoptions = [
-    { label: "Private", value: "Private" },
-    { label: "Public", value: "Public" },
+const BasicInputs = ({ defaultValues }) => {
+  const { control, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
+  const [createGroup] = useCreateGroupMutation();
+  const [updateGroup] = useUpdateGroupMutation();
+  const { groupId } = useParams();
+
+  const selectOptions = [
+    { label: "Private", value: "private" },
+    { label: "Public", value: "public" },
   ];
+
   const customStyles = {
     option: (provided, state) => ({
       ...provided,
@@ -16,80 +27,148 @@ const BasicInputs = () => {
       },
     }),
   };
+
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues, reset]);
+
+  const onSubmit = async (data) => {
+    try {
+      const formData = new FormData();
+      formData.append("name", data.name);
+      formData.append("bg_image_url", data.bg_image_url);
+      formData.append("icon_image_url", data.icon_image_url);
+      formData.append("type", data.type);
+      formData.append("description", data.description);
+
+      if (groupId !== "new") {
+        await updateGroup({ id: groupId, data: formData });
+        toast.success("Group updated successfully!");
+      } else {
+        await createGroup(formData);
+        console.log("formData",formData);
+        toast.success("Group created successfully!");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      alert("An error occurred. Please try again.");
+    }
+  };
+
   return (
-    <>
-        <div className="content container-fluid">
-      
-          <div className="row">
-            <div className="col-lg-12">
-              <div className="card">
-                <div className="card-body">
-                  <form action="#">
-                    
-                    
-                    <div className="input-block mb-3 row">
-                      <label className="col-form-label col-md-2">
-                        Group Name
-                      </label>
-                      <div className="col-md-10">
+    <div className="content container-fluid">
+      <Breadcrumbs
+        maintitle="Basic Inputs"
+        title="Dashboard"
+        subtitle="Basic Inputs"
+      />
+      <div className="row">
+        <div className="col-lg-12">
+          <div className="card">
+            <div className="card-body">
+              <form onSubmit={handleSubmit(onSubmit)}>
+                <div className="input-block mb-6 row">
+                  <label className="col-form-label col-md-2">Group Name</label>
+                  <div className="col-md-10">
+                    <Controller
+                      name="name"
+                      control={control}
+                      render={({ field }) => (
                         <input
                           type="text"
                           className="form-control"
                           placeholder="Enter Your Group Name"
+                          {...field}
                         />
-                      </div>
-                    </div>
-                    <div className="input-block mb-3 row">
-                      <label className="col-form-label col-md-2">
-                      Group Background Image                      </label>
-                      <div className="col-md-10">
-                        <input className="form-control" type="file" />
-                      </div>
-                    </div>
-                    <div className="input-block mb-3 row">
-                      <label className="col-form-label col-md-2">
-                      Group Icon Image                      </label>
-                      <div className="col-md-10">
-                        <input className="form-control" type="file" />
-                      </div>
-                    </div>
-                    <div className="input-block mb-3 row">
-                      <label className="col-form-label col-md-2">
-                        Group Type
-                      </label>
-                      <div className="col-md-10">
+                      )}
+                    />
+                    {errors?.name && <span>{errors?.name?.message}</span>}
+                  </div>
+                </div>
+                <div className="input-block mb-6 row">
+                  <label className="col-form-label col-md-2">Group Background Image</label>
+                  <div className="col-md-10">
+                    <Controller
+                      name="bg_image_url"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          className="form-control"
+                          type="file"
+                          onChange={(e) => field.onChange(e.target.files[0])}
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="input-block mb-6 row">
+                  <label className="col-form-label col-md-2">Group Icon Image</label>
+                  <div className="col-md-10">
+                    <Controller
+                      name="icon_image_url"
+                      control={control}
+                      render={({ field }) => (
+                        <input
+                          className="form-control"
+                          type="file"
+                          onChange={(e) => field.onChange(e.target.files[0])}
+                        />
+                      )}
+                    />
+                  </div>
+                </div>
+                <div className="input-block mb-6 row">
+                  <label className="col-form-label col-md-2">Group Type</label>
+                  <div className="col-md-10">
+                    <Controller
+                      name="type"
+                      control={control}
+                      render={({ field }) => (
                         <Select
-                          options={selectoptions}
+                          options={selectOptions}
                           placeholder="-- Select --"
                           styles={customStyles}
+                          value={selectOptions.find(
+                            (option) => option.value === field.value
+                          )}
+                          onChange={(option) => field.onChange(option.value)}
                         />
-                      </div>
-                    </div>
-                   
-                   
-                    <div className="input-block mb-3 row">
-                      <label className="col-form-label col-md-2">
-                        Group Description
-                      </label>
-                      <div className="col-md-10">
+                      )}
+                    />
+                    {errors?.type && <span>{errors?.type?.message}</span>}
+                  </div>
+                </div>
+                <div className="input-block mb-6 row">
+                  <label className="col-form-label col-md-2">Group Description</label>
+                  <div className="col-md-10">
+                    <Controller
+                      name="description"
+                      control={control}
+                      render={({ field }) => (
                         <textarea
                           rows={5}
                           cols={5}
                           className="form-control"
                           placeholder="Enter Description here"
-                          defaultValue={""}
+                          {...field}
                         />
-                      </div>
-                    </div>
-                    
-                  </form>
+                      )}
+                    />
+                  </div>
                 </div>
-              </div>
-            
+                <div className="input-block mb-6 row">
+                  <div className="col-md-10 offset-md-2 d-flex justify-content-end">
+                    <button type="submit" className="btn btn-primary">
+                      Submit
+                    </button>
+                  </div>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-    </>
+      </div>
+    </div>
   );
 };
 
