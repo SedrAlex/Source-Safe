@@ -1,10 +1,8 @@
 import React from "react";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
 import PageHeader from "@layout/PageHeader";
 import CoverImage from "../../src/assets/Invitation.png";
 import { useSendInvitationMutation } from "api/groups/groupsApi";
@@ -14,16 +12,18 @@ import { useParams } from 'react-router-dom';
 import InvitationForm from "@ui/Forms/InvitationForm";
 
 const schema = z.object({
-  email: z.string().email("Invalid email address").min(1, "Email is required"),
-  accessLevel: z.string().min(1, "Access level is required"),
+  recipient_email: z.string().email("Invalid email address").min(1, "Email is required"),
+  role: z.string().min(1, "Role is required"),
+  description: z.string().min(1, "Description is Optional"),
 });
 
 const Invitation = () => {
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: zodResolver(schema),
     defaultValues: {
-      email: "",
-      accessLevel: "",
+      recipient_email: "",
+      role: "",
+      description: "",
     },
   });
 
@@ -33,9 +33,10 @@ const Invitation = () => {
   const onSubmit = async (data) => {
     try {
       const formData = new FormData();
-      formData.append('email', data.email);
-      formData.append('accessLevel', data.accessLevel);
-      formData.append('groupId', groupId); // Append groupId to the form data
+      formData.append('recipient_email', data.recipient_email);
+      formData.append('role', data.role);
+      formData.append('description', data.description);
+      formData.append('group_id', groupId);
 
       const response = await sendInvitation(formData).unwrap();
       toast.success("Invitation sent successfully!");
@@ -51,7 +52,12 @@ const Invitation = () => {
       <PageHeader title={"Invite A Member"} />
       <Grid container spacing={2}>
         <Grid item xs={12} md={6}>
-        <InvitationForm     />       
+          <InvitationForm
+            control={control}
+            errors={errors}
+            handleSubmit={handleSubmit}
+            onSubmit={onSubmit}
+          />
         </Grid>
         <Grid item xs={12} md={6}>
           <img
@@ -60,7 +66,7 @@ const Invitation = () => {
             className="d-none d-md-block"
             style={{
               maxWidth: "100%",
-              height: "640px",
+              height: "500px",
               objectFit: "contain",
               borderRadius: "10px",
             }}

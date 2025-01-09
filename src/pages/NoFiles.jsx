@@ -18,10 +18,10 @@ const NoFiles = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        height: '100vh',
+        width: '75vw',
+
       }}
     >
-      
           <img
             src={noFile}
             alt="No files"
@@ -40,7 +40,7 @@ const NoFiles = () => {
           >
             Create a New File
           </Button>
-    </Box>
+     </Box>
   );
 };
 

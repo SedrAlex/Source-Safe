@@ -12,13 +12,19 @@ export const filesApi = createApi({
       query: (id) => `/files/${id}`,
     }),
     createFile: builder.mutation({
-      query: (newFile) => ({
+      query: (formData) => ({
         url: "/files",
         method: "POST",
-        body: newFile,
+        body: formData,
       }),
     }),
-
+    lockFile: builder.mutation({
+      query: (files) => ({
+        url: "/files/lock",
+        method: "PATCH",
+        body: files,
+      }),
+    }),
     sendInvitation: builder.mutation({
       query: (invitation) => ({
         url: "/invitations",
@@ -48,4 +54,5 @@ export const {
   useCreateFileMutation,
   useUpdateFileMutation,
   useDeleteFileMutation,
+  useLockFileMutation
 } = filesApi;

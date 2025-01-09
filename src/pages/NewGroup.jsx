@@ -53,8 +53,8 @@ const NewGroup = () => {
       formData.append("name", data.name);
       formData.append("description", data.description);
       formData.append("type", data.type);
-      if (logoFile) formData.append("logo", logoFile);
-      if (bgFile) formData.append("background", bgFile);
+      formData.append("bg_image_url", data.bg_image_url);
+      formData.append("icon_image_url", data.icon_image_url);
 
       const response = await createGroup(formData).unwrap();
       toast.success("Group created successfully!");
@@ -82,7 +82,7 @@ const NewGroup = () => {
             control={control}
             errors={errors}
             onSubmit={handleSubmit(onSubmit)}
-            defaultValues={group || {}}
+            defaultValues={group?.data?.group || {}}
           />
         </Grid>
         <Grid item xs={12} md={6}>

@@ -1,16 +1,27 @@
 import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Breadcrumbs from "@ui/Shared/Breadcrumbs";
 import Select from "react-select";
-import { useCreateGroupMutation, useUpdateGroupMutation } from "api/groups/groupsApi";
+import {
+  useCreateGroupMutation,
+  useDeleteGroupMutation,
+  useUpdateGroupMutation,
+} from "api/groups/groupsApi";
 import { toast } from "react-toastify";
 
 const BasicInputs = ({ defaultValues }) => {
-  const { control, handleSubmit, reset, formState: { errors } } = useForm({ defaultValues });
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ defaultValues });
   const [createGroup] = useCreateGroupMutation();
   const [updateGroup] = useUpdateGroupMutation();
+
   const { groupId } = useParams();
+  const navigate = useNavigate();
 
   const selectOptions = [
     { label: "Private", value: "private" },
@@ -36,24 +47,28 @@ const BasicInputs = ({ defaultValues }) => {
     try {
       const formData = new FormData();
       formData.append("name", data.name);
-      formData.append("bg_image_url", data.bg_image_url);
-      formData.append("icon_image_url", data.icon_image_url);
+      formData.append("bg_image", data.bg_image);
+      formData.append("icon_image", data.icon_image);
       formData.append("type", data.type);
       formData.append("description", data.description);
 
+
       if (groupId !== "new") {
-        await updateGroup({ id: groupId, data: formData });
+        await updateGroup({ id: groupId, formData });
         toast.success("Group updated successfully!");
+        navigate("/groups");
       } else {
         await createGroup(formData);
-        console.log("formData",formData);
         toast.success("Group created successfully!");
+        navigate("/groups");
       }
     } catch (error) {
       console.error("Error submitting form:", error);
-      alert("An error occurred. Please try again.");
+      toast.error("An error occurred. Please try again.");
     }
   };
+
+  const isDisabled = groupId !== "new";
 
   return (
     <div className="content container-fluid">
@@ -86,31 +101,37 @@ const BasicInputs = ({ defaultValues }) => {
                   </div>
                 </div>
                 <div className="input-block mb-6 row">
-                  <label className="col-form-label col-md-2">Group Background Image</label>
+                  <label className="col-form-label col-md-2">
+                    Group Background Image
+                  </label>
                   <div className="col-md-10">
                     <Controller
-                      name="bg_image_url"
+                      name="bg_image"
                       control={control}
                       render={({ field }) => (
                         <input
                           className="form-control"
                           type="file"
                           onChange={(e) => field.onChange(e.target.files[0])}
+                          disabled={isDisabled}
                         />
                       )}
                     />
                   </div>
                 </div>
                 <div className="input-block mb-6 row">
-                  <label className="col-form-label col-md-2">Group Icon Image</label>
+                  <label className="col-form-label col-md-2">
+                    Group Icon Image
+                  </label>
                   <div className="col-md-10">
                     <Controller
-                      name="icon_image_url"
+                      name="icon_image"
                       control={control}
                       render={({ field }) => (
                         <input
                           className="form-control"
                           type="file"
+                          disabled={isDisabled}
                           onChange={(e) => field.onChange(e.target.files[0])}
                         />
                       )}
@@ -139,7 +160,9 @@ const BasicInputs = ({ defaultValues }) => {
                   </div>
                 </div>
                 <div className="input-block mb-6 row">
-                  <label className="col-form-label col-md-2">Group Description</label>
+                  <label className="col-form-label col-md-2">
+                    Group Description
+                  </label>
                   <div className="col-md-10">
                     <Controller
                       name="description"

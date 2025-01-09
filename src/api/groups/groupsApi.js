@@ -8,6 +8,9 @@ export const groupsApi = createApi({
     getGroups: builder.query({
       query: () => "groups",
     }),
+    getInvitations: builder.query({
+      query: () => "invitations",
+    }),
     getGroup: builder.query({
       query: (id) => `groups/${id}`,
     }),
@@ -26,11 +29,23 @@ export const groupsApi = createApi({
         body: invitation,
       }),
     }),
+    acceptInvitation: builder.mutation({
+      query: (invitationId) => ({
+        url: `invitations/${invitationId}/accept`,
+        method: "POST",
+      }),
+    }),
+    rejectInvitation: builder.mutation({
+      query: (invitationId) => ({
+        url: `invitations/${invitationId}/reject`,
+        method: "POST",
+      }),
+    }),
     updateGroup: builder.mutation({
-      query: ({ id, ...updatedGroup }) => ({
+      query: ({ id,formData }) => ({
         url: `groups/${id}`,
-        method: "PUT",
-        body: updatedGroup,
+        method: "PATCH",
+        body: formData,
       }),
     }),
     deleteGroup: builder.mutation({
@@ -48,5 +63,8 @@ export const {
   useCreateGroupMutation,
   useUpdateGroupMutation,
   useDeleteGroupMutation,
-  useSendInvitationMutation
+  useSendInvitationMutation,
+  useGetInvitationsQuery,
+  useAcceptInvitationMutation,
+  useRejectInvitationMutation
 } = groupsApi;

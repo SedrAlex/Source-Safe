@@ -11,12 +11,16 @@ import bvb from "@assets/clubs/computer.png";
 import lockIcon from "@assets/lock.png";
 import envelopeIcon from "@assets/envelop.png";
 import detailsIcon from "@assets/details.png";
+import trashIcon from "@assets/trash.png";
+import { useDeleteGroupMutation } from "api/groups/groupsApi";
+import { toast } from "react-toastify";
 
-const Group = ({ clubData }) => {
+const Group = ({ clubData, owned }) => {
   const { theme } = useThemeProvider();
   const { width } = useWindowSize();
-  const [isPrivate, setIsPrivate] = useState(clubData?.type==="private");
+  const [isPrivate, setIsPrivate] = useState(clubData?.type === "private");
   const navigate = useNavigate();
+  const [deleteGroup] = useDeleteGroupMutation();
 
   const data = [
     { label: "Users", shortLabel: "U", value: 17, path: "users" },
@@ -37,7 +41,15 @@ const Group = ({ clubData }) => {
     console.log(`Navigating to /groups/${clubData?.id}/`);
     navigate(`/groups/${clubData?.id}/`);
   };
-
+  const handleDeleteClick = async () => {
+    try {
+      await deleteGroup(clubData?.id).unwrap();
+      toast.success("Group Deleted successfully!");
+      navigate(`/groups`);
+    } catch (error) {
+      toast.error("Failed to Delete group.");
+    }
+  };
   return (
     <Spring
       className={`${styles.container} ${
@@ -73,28 +85,42 @@ const Group = ({ clubData }) => {
               />
             </IconButton>
           )}
-          <IconButton
-            size="small"
-            sx={{ cursor: "pointer" }}
-            onClick={handlePreviewClick}
-          >
-            <img
-              src={detailsIcon}
-              alt="Details Icon"
-              style={{ width: 30, height: 30 }}
-            />
-          </IconButton>
-          <IconButton
-            size="small"
-            sx={{ cursor: "pointer" }}
-            onClick={handleInviteClick}
-          >
-            <img
-              src={envelopeIcon}
-              alt="Envelope Icon"
-              style={{ width: 30, height: 30 }}
-            />
-          </IconButton>
+          {owned && (
+            <>
+              <IconButton
+                size="small"
+                sx={{ cursor: "pointer" }}
+                onClick={handlePreviewClick}
+              >
+                <img
+                  src={detailsIcon}
+                  alt="Details Icon"
+                  style={{ width: 30, height: 30 }}
+                />
+              </IconButton>
+              <IconButton
+                size="small"
+                sx={{ cursor: "pointer" }}
+                onClick={handleInviteClick}
+              >
+                <img
+                  src={envelopeIcon}
+                  alt="Envelope Icon"
+                  style={{ width: 30, height: 30 }}
+                />
+              </IconButton>
+              <IconButton
+                size="small"
+                sx={{ cursor: "pointer" }}
+                onClick={handleDeleteClick}              >
+                <img
+                  src={trashIcon}
+                  alt="Trash Icon"
+                  style={{ width: 30, height: 30 }}
+                />
+              </IconButton>
+            </>
+          )}
         </Box>
       </div>
       <div

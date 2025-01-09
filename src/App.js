@@ -52,6 +52,7 @@ import Sidebar from '@layout/Sidebar';
 import BottomNav from '@layout/BottomNav';
 import Navbar from '@layout/Navbar';
 import ScrollToTop from '@components/ScrollToTop';
+import Invitations from '@pages/Invitations';
 
 // pages
 
@@ -130,6 +131,7 @@ const App = () => {
                                                 <Route path="/groups/:groupId/files/new" element={<NewFile/>}/>
                                                 <Route path="/groups/:groupId/files" element={<Files/>}/>
                                                 <Route path="/files" element={<Files/>}/>
+                                                <Route path="/invitations" element={<Invitations/>}/>
 
                                                 <Route path="/sign-up" element={<SignUp/>}/>
                                             </Routes>
