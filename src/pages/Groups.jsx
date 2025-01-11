@@ -6,7 +6,13 @@ import { useGetGroupsQuery } from "api/groups/groupsApi";
 import { Divider } from "@mui/material";
 
 const Groups = () => {
-  const { data: groups, isLoading, isError, error, refetch } = useGetGroupsQuery();
+  const {
+    data: groups,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useGetGroupsQuery();
 
   useEffect(() => {
     refetch();
@@ -23,7 +29,7 @@ const Groups = () => {
   return (
     <>
       <PageHeader title="Groups" />
-      
+
       {/* Public Groups Section */}
       <h2>Public Groups</h2>
       <Grid container spacing={2}>
@@ -46,7 +52,7 @@ const Groups = () => {
           <Grid container spacing={2}>
             {groups.data["personal-groups"].map((group) => (
               <Grid item xs={12} sm={6} md={4} key={group.id}>
-                <Group clubData={group} owner={true} />
+                <Group clubData={group} owned={true} />
               </Grid>
             ))}
           </Grid>
@@ -55,18 +61,18 @@ const Groups = () => {
       )}
 
       {/* Shared Groups Section */}
-      <h2>The Groups You Are a Member Of</h2>
-      <Grid container spacing={2}>
-        {groups?.data?.["shared-groups"]?.length > 0 ? (
-          groups.data["shared-groups"].map((group) => (
-            <Grid item xs={12} sm={6} md={4} key={group.id}>
-              <Group clubData={group} />
-            </Grid>
-          ))
-        ) : (
-          <div>You are not a member of any groups.</div>
-        )}
-      </Grid>
+      {groups?.data?.["shared-groups"]?.length > 0 && (
+        <>
+          <h2>The Groups You Are a Member Of</h2>
+          <Grid container spacing={2}>
+            {groups.data["shared-groups"].map((group) => (
+              <Grid item xs={12} sm={6} md={4} key={group.id}>
+                <Group clubData={group} />
+              </Grid>
+            ))}
+          </Grid>
+        </>
+      )}
     </>
   );
 };

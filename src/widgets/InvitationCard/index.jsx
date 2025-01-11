@@ -9,6 +9,7 @@ import cover from "@assets/cover.jpg";
 import bvb from "@assets/clubs/computer.png";
 import { useAcceptInvitationMutation, useRejectInvitationMutation } from "api/groups/groupsApi";
 import { toast } from "react-toastify";
+
 const InvitationCard = ({ clubData, owned }) => {
   const { theme } = useThemeProvider();
   const { width } = useWindowSize();
@@ -16,7 +17,7 @@ const InvitationCard = ({ clubData, owned }) => {
   const navigate = useNavigate();
   const [acceptInvitation, { isLoading: isAccepting, error: acceptError }] = useAcceptInvitationMutation();
   const [rejectInvitation, { isLoading: isRejecting, error: rejectError }] = useRejectInvitationMutation();
- 
+
   const handleAcceptClick = async () => {
     const invitationId = clubData?.id;
     if (!invitationId) {
@@ -31,7 +32,7 @@ const InvitationCard = ({ clubData, owned }) => {
       console.error("Error accepting invitation:", error);
     }
   };
-  
+
   const handleRejectClick = async () => {
     const invitationId = clubData?.id;
     if (!invitationId) {
@@ -59,14 +60,14 @@ const InvitationCard = ({ clubData, owned }) => {
           src={clubData?.bg_image_url || cover}
           style={{ width: "100%", height: "auto" }}
         />
-        
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
           <Button
             variant="outlined"
             sx={{
               borderColor: "black",
               color: "black",
-              cursor:"pointer"
-
+              cursor: "pointer",
+              marginRight: '10px'
             }}
             onClick={handleAcceptClick}
             disabled={isAccepting}
@@ -78,13 +79,14 @@ const InvitationCard = ({ clubData, owned }) => {
             sx={{
               borderColor: "black",
               color: "black",
-              cursor:"pointer"
+              cursor: "pointer"
             }}
             onClick={handleRejectClick}
             disabled={isRejecting}
           >
             {isRejecting ? "Rejecting..." : "Reject"}
           </Button>
+        </div>
       </div>
       <div
         className={`${styles.content} d-flex flex-column align-items-start justify-content-between h-100`}
@@ -103,6 +105,9 @@ const InvitationCard = ({ clubData, owned }) => {
           <h4 className="text-black text-overflow">
             {clubData?.description || "Paris, France"}
           </h4>
+          <h6 className="text-black text-overflow">
+            You are the {clubData?.description || "Paris, France"}
+          </h6>
         </div>
       </div>
     </Spring>

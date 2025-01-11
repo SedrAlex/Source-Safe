@@ -53,6 +53,7 @@ import BottomNav from '@layout/BottomNav';
 import Navbar from '@layout/Navbar';
 import ScrollToTop from '@components/ScrollToTop';
 import Invitations from '@pages/Invitations';
+import Users from '@pages/Users';
 
 // pages
 
@@ -65,6 +66,7 @@ const Invitation = lazy(() => import('@pages/Invitation'));
  const NewFile = lazy(() => import('@pages/NewFile'));
  const Main = lazy(() => import('@pages/Main'));
  const Files = lazy(() => import('@pages/FileManager'));
+ const FileDetails = lazy(() => import('@pages/FileManager/FileDetails'));
 
 const App = () => {
     const appRef = useRef(null);
@@ -131,7 +133,9 @@ const App = () => {
                                                 <Route path="/groups/:groupId/files/new" element={<NewFile/>}/>
                                                 <Route path="/groups/:groupId/files" element={<Files/>}/>
                                                 <Route path="/files" element={<Files/>}/>
+                                                <Route path="/files/:fileId/details" element={<FileDetails/>}/>
                                                 <Route path="/invitations" element={<Invitations/>}/>
+                                                <Route path="/groups/:groupId/users" element={<Users/>}/>
 
                                                 <Route path="/sign-up" element={<SignUp/>}/>
                                             </Routes>
