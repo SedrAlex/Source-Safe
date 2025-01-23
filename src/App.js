@@ -133,7 +133,7 @@ const App = () => {
                                                 <Route path="/groups/:groupId/files/new" element={<NewFile/>}/>
                                                 <Route path="/groups/:groupId/files" element={<Files/>}/>
                                                 <Route path="/files" element={<Files/>}/>
-                                                <Route path="/files/:fileId/details" element={<FileDetails/>}/>
+                                                <Route path="/groups/:groupId/files/:fileId/details" element={<FileDetails/>}/>
                                                 <Route path="/invitations" element={<Invitations/>}/>
                                                 <Route path="/groups/:groupId/users" element={<Users/>}/>
 

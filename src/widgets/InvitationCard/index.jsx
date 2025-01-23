@@ -57,7 +57,7 @@ const InvitationCard = ({ clubData, owned }) => {
       <div sx={{ position: "relative" }}>
         <img
           className={`${styles.cover} cover`}
-          src={clubData?.bg_image_url || cover}
+          src={clubData?.group?.bg_image_url || cover}
           style={{ width: "100%", height: "auto" }}
         />
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '5px' }}>
@@ -93,7 +93,7 @@ const InvitationCard = ({ clubData, owned }) => {
       >
         <img
           className="club-logo"
-          src={clubData?.icon_image_url || bvb}
+          src={clubData?.group?.icon_image_url || bvb}
           alt="Club Icon"
         />
         <div
@@ -106,8 +106,9 @@ const InvitationCard = ({ clubData, owned }) => {
             {clubData?.description || "Paris, France"}
           </h4>
           <h6 className="text-black text-overflow">
-            You are the {clubData?.description || "Paris, France"}
+            Your role in this group is {clubData?.role} 
           </h6>
+         
         </div>
       </div>
     </Spring>

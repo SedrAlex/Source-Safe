@@ -252,6 +252,18 @@
                     .card-body {
                         @include margin-padding(null, 15px 0 0);
                     }
+                    .checkbox-container {
+                        display: flex;
+                        justify-content: flex-start; /* Align items to the left */
+                        align-items: center; /* Vertically center the checkbox */
+                    }
+                    
+                    .checkbox-container input[type="checkbox"] {
+                        margin-right: 205px; /* Add some space between the checkbox and the next element */
+                        margin-top: 5px;
+                         width: auto; /* Ensure the checkbox width is auto */
+                    }
+                    
                     .dropdown-file {
                         @include position(absolute,10px,10px,null,null);
                         .dropdown-link {
@@ -281,7 +293,7 @@
                         background-color: $light-300;
                         color: $secondary-600;
                         font-size: $font-size-48;
-                        height: 120px;
+                        height: 200px;
                         display: -webkit-box;
                         display: -ms-flexbox;
                         display: flex;

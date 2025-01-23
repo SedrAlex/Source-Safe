@@ -140,6 +140,10 @@ const Group = ({ clubData, owned }) => {
           <h4 className="text-black text-overflow">
             {clubData?.description || "Paris, France"}
           </h4>
+          {clubData?.membership && (<h4 className="text-black text-overflow">
+           Your Role in this group is {clubData?.membership?.role}
+          </h4>
+          )}
         </div>
         <div className="d-flex flex-wrap g-20" style={{ marginTop: "10px" }}>
           {data.map((item, index) => (

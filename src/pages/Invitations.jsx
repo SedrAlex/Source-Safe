@@ -16,9 +16,7 @@ const Invitations = () => {
   }
 
   // Filter invitations with status 'accepted' or 'rejected'
-  const filteredInvitations = invitations?.data?.["received-invitations"]?.filter(
-    (invitation) => invitation.status === "unread"
-  );
+  const filteredInvitations = invitations?.data?.["received-invitations"]
 
   return (
     <>
